@@ -3,27 +3,36 @@
 
 <div class="row">
     <div class="col-6 offset-3">
-        <form action="/campgrounds/<%= camp.id %>/edit?_method=PUT" method="POST">
+        <form action="/campgrounds/<%= camp.id %>/edit?_method=PUT" method="POST" novalidate class="needs-validation">
             <div class="mb-3">
                 <label for="title" class="form-label">
                     Title
                 </label>
                 <input type="text" id="title" name="camp[title]" placeholder="Title" class="form-control"
-                    value="<%= camp.title %>">
+                    value="<%= camp.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label">
                     Location
                 </label>
                 <input type="text" id="location" name="camp[location]" placeholder="Location" class="form-control"
-                    value="<%= camp.location %>">
+                    value="<%= camp.location %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">
                     Image URL
                 </label>
                 <input type="text" id="image" name="camp[image]" placeholder="Image URL" class="form-control"
-                    value="<%= camp.image %>">
+                    value="<%= camp.image %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">
@@ -32,7 +41,10 @@
                 <div class="input-group">
                     <span class="input-group-text" id="basic-addon1">$</span>
                     <input type="text" id="price" name="camp[price]" class="form-control" placeholder="0.00"
-                        value="<%= camp.price %>">
+                        value="<%= camp.price %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
@@ -40,7 +52,10 @@
                     Description
                 </label>
                 <textarea name="camp[description]" id="description" rows="3" placeholder="Description"
-                    class="form-control"><%= camp.description %></textarea>
+                    class="form-control" required><%= camp.description %></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <a href="/campgrounds/<%= camp.id %>" class="btn btn-secondary">Cancel</a>
