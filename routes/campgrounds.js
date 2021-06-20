@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
+const { isLoggedIn } = require('../middleware');
 const Campground = require('../models/campground');
 const { campgroundSchema } = require('../schemas');
 
@@ -23,11 +24,11 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('campgrounds/index', { camps })
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('campgrounds/new');
-})
+});
 
-router.post('/new', validateCamp, catchAsync(async (req, res, next) => {
+router.post('/new', isLoggedIn, validateCamp, catchAsync(async (req, res, next) => {
     // if (!req.body.camp) throw new ExpressError('Invalid Campground Data', 400);
     const newCamp = new Campground(req.body.camp);
     await newCamp.save();
@@ -45,7 +46,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('campgrounds/show', { camp });
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
     if (!camp) {
@@ -55,14 +56,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('campgrounds/edit', { camp });
 }));
 
-router.put('/:id/edit', validateCamp, catchAsync(async (req, res) => {
+router.put('/:id/edit', isLoggedIn, validateCamp, catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findByIdAndUpdate(id, req.body.camp, { runValidators: true, new: true });
     req.flash('success', 'Successfully updated campground!');
     res.redirect(`/campgrounds/${camp.id}`);
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted campground!')
