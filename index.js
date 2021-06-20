@@ -57,6 +57,10 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     console.log(req.session);
+    // Solution notes issue #3
+    if (req.path !== '/login' && !req.isAuthenticated()) {
+        req.session.returnTo = req.originalUrl;
+    }
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
