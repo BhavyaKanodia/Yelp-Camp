@@ -56,9 +56,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.session);
+    // console.log(req.session);
+    // console.log(req.originalUrl);
     // Solution notes issue #3
-    if (req.path !== '/login' && !req.isAuthenticated()) {
+    if (req.originalUrl !== '/login' && req.originalUrl !== '/af' && !req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl;
     }
     res.locals.currentUser = req.user;
