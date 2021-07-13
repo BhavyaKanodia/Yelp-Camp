@@ -50,8 +50,9 @@
     </div>
 
     <div class="col-md-6">
+        <div id='map' style='width: 400px; height: 300px;' class="w-auto"></div>
         <% if (currentUser) { %>
-        <h2>Leave a review</h2>
+        <h2 class="mt-2">Leave a review</h2>
         <form action="/campgrounds/<%= camp.id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
             <!-- <div class="mb-3">
                 <label for="rating" class="form-label">Rating</label>
@@ -102,3 +103,10 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+    //Formatting messes this up
+    const camp = <%- JSON.stringify(camp) %>
+</script>
+<script src="/javascripts/showPageMap.js"></script>
