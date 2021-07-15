@@ -6,7 +6,7 @@ const map = new mapboxgl.Map({
     zoom: 9 // starting zoom
 });
 
-new mapboxgl.Marker()
+new mapboxgl.Marker({ color: '#388E3C' })
     .setLngLat(camp.geometry.coordinates)
     .setPopup(
         new mapboxgl.Popup({ offset: 25 })
@@ -15,3 +15,5 @@ new mapboxgl.Marker()
             )
     )
     .addTo(map);
+
+map.addControl(new mapboxgl.NavigationControl());
