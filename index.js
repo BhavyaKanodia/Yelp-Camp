@@ -14,6 +14,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
 
 const User = require('./models/user');
 const ExpressError = require('./utils/ExpressError');
@@ -21,9 +22,11 @@ const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
 
+//'mongodb://localhost:27017/yelp-camp'
 //MongoDB connection
-mongoose.connect('mongodb://localhost:27017/yelp-camp', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind("Mongodb connection error"));
@@ -42,17 +45,24 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'changethissecretlater';
+
 const sessionConfig = {
     name: 'session',
-    secret: 'changethissecretlater',
+    secret,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: dbUrl,
+        secret,
+        touchAfter: 24 * 60 * 60
+    }),
     cookie: {
         httpOnly: true,
         // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+    },
 };
 app.use(session(sessionConfig));
 app.use(flash());
