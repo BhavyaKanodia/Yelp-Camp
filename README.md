@@ -1,5 +1,5 @@
 # Review Camper 
-A web application project from the Udemy course - The Web Development Bootcamp by Colt Steele. It is a web application where users can create and maintain their campgrounds and other users can rate and review them. All visitors can view the campgrounds and reviews to make informed decisions about their trips.
+A CRUD Express.js application for campers. It is a web application where users can create and maintain their camp sites and other users can rate and review them. All visitors can view the camp sites and reviews to make informed decisions about their trips.
 ## Live Demo
 The Live Demo is hosted at https://serene-crag-20850.herokuapp.com/
 ## Features
